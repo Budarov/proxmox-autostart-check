@@ -1,2 +1,40 @@
 # proxmox-autostart-check
- Proxmox check, disable and enable start on boot option on VM
+Возникла необходимость отключать атозапуск VM в кластере во время проведения регламентных работ. 
+
+Вызвано тем, что штатно выключенные VM после перезагрузки ноды начнуть включатся. если требуется несколько перезагрузок, то их включение и последующее выключение каждой VM может потребовать значительного времени.
+
+Скрипт подключается к ноде по Proxmox VE API через https. 
+
+Для работы скрипта должен быть установлен pip.
+
+# Как пользоватся:
+
+1. Указать IP, имя пользователя и пароль для подключения к любой ноде кластера на строке 27:
+
+```bash
+proxmox = ProxmoxAPI("xxx.xxx.xxx.xxx", user="user@pam", password="xxxxxxxxxxxxxx", verify_ssl=False)
+```
+
+2). Вывести текущие настройки автостарта для VM:
+
+```bash
+python3 proxmox-backup-check.py
+```
+
+3) Сохранить текующую настройку параметров автостарта VM в файл (если имя файла не указано, то будет использовано имя по усолчанию - startonboot.conf):
+
+```bash
+python3 proxmox-backup-check.py -export <filename.conf>
+```
+
+4) Отключить автостар на VM и сохранить текующую настройку параметров автостарта VM в файл (если имя файла не указано, то будет использовано имя по усолчанию - startonboot.conf):
+
+```bash
+python3 proxmox-backup-check.py -disable <filename.conf>
+```
+
+5) Применить сохраненные настройки автостарта VM в кластере из файла:
+
+```bash
+python3 proxmox-backup-check.py --import <filename.conf>
+```
