@@ -57,7 +57,7 @@ def from_file(file):
   with open(file,'r') as conf_file:
     data = json.load(conf_file)
   conf_file.close()
-  # Привидений типа VM id к int
+  # Приведение типа VM id к int
   for i in range(len(data)):
       result = {}
       for k, v in data[i]['vm'].items():
